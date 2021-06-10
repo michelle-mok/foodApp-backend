@@ -2,9 +2,9 @@ import { Sequelize } from 'sequelize';
 import url from 'url';
 import allConfig from '../config/config.js';
 
-import itemModel from './item.mjs';
-import orderModel from './order.mjs';
-import orderItemModel from './orderItem.mjs';
+import userModel from './user.mjs';
+import cuisineModel from './cuisine.mjs';
+import messageModel from './message.mjs';
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -34,17 +34,34 @@ if (env === 'production') {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-db.Item = itemModel(sequelize, Sequelize.DataTypes);
-db.Order = orderModel(sequelize, Sequelize.DataTypes);
-db.OrderItem = orderItemModel(sequelize, Sequelize.DataTypes);
+db.User = userModel(sequelize, Sequelize.DataTypes);
+db.Cuisine = cuisineModel(sequelize, Sequelize.DataTypes);
+db.Message = messageModel(sequelize, Sequelize.DataTypes);
 
-db.Item.belongsToMany(db.Order, { through: 'order_items' });
-db.Order.belongsToMany(db.Item, { through: 'order_items' });
+db.User.belongsToMany(db.Cuisine, { through: 'user_cuisines' });
+db.Cuisine.belongsToMany(db.User, { through: 'user_cuisines' });
 
-db.Item.hasMany(db.OrderItem);
-db.OrderItem.belongsTo(db.Item);
-db.Order.hasMany(db.OrderItem);
-db.OrderItem.belongsTo(db.Order);
+db.User.hasMany(db.Message, {
+  foreignKey: 'sender_id',
+  as: 'sentMessages',
+});
+
+db.User.hasMany(db.Message, {
+  foreignKey: 'receiver_id',
+  as: 'receivedMessages',
+});
+
+db.Message.belongsTo(db.User, {
+  as: 'sender',
+  foreignKey: 'sender_id',
+  allowNull: false,
+});
+
+db.Message.belongsTo(db.User, {
+  as: 'receiver',
+  foreignKey: 'receiver_id',
+  allowNull: false,
+});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

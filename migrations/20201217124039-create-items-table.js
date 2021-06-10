@@ -1,6 +1,41 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('items', {
+    await queryInterface.createTable('users', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      first_name: {
+        type: Sequelize.STRING,
+      },
+      last_name: {
+        type: Sequelize.STRING,
+      },
+      username: {
+        type: Sequelize.STRING,
+      },
+      email: {
+        type: Sequelize.STRING,
+      },
+      password: {
+        type: Sequelize.STRING,
+      },
+      profile_pic: {
+        type: Sequelize.STRING,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+
+    await queryInterface.createTable('cuisines', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,11 +45,36 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      description: {
-        type: Sequelize.STRING,
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
-      price: {
-        type: Sequelize.DECIMAL(10, 2),
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+    
+    await queryInterface.createTable('user_cuisines', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      cuisine_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'cuisines',
+          key: 'id',
+        },
       },
       created_at: {
         allowNull: false,
@@ -25,48 +85,32 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-    await queryInterface.createTable('orders', {
+
+    await queryInterface.createTable('messages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      total: {
-        type: Sequelize.DECIMAL(10, 2),
-      },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-    });
-    await queryInterface.createTable('order_items', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      quantity: {
-        type: Sequelize.INTEGER,
-      },
-      order_id: {
+      receiver_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'orders',
+          model: 'users',
           key: 'id',
+          as: 'receiverId',
         },
       },
-      item_id: {
+      sender_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'items',
+          model: 'users',
           key: 'id',
+          as: 'senderId',
         },
+      },
+      message: {
+        type: Sequelize.TEXT,
       },
       created_at: {
         allowNull: false,
@@ -80,6 +124,9 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('items');
+    await queryInterface.dropTable('messages');
+    await queryInterface.dropTable('user_cuisines');
+    await queryInterface.dropTable('cuisines');
+    await queryInterface.dropTable('users');
   },
 };

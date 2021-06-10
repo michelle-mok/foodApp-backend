@@ -1,13 +1,13 @@
-export default function orderModel(sequelize, DataTypes) {
-  return sequelize.define('order', {
+export default function cuisineModel(sequelize, DataTypes) {
+  return sequelize.define('cuisine', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    total: {
-      type: DataTypes.DECIMAL(10, 2),
+    name: {
+      type: DataTypes.STRING,
     },
     createdAt: {
       allowNull: false,
