@@ -1,8 +1,8 @@
-export default function initItemsController(db) {
+export default function initUsersController(db) {
   const index = async (request, response) => {
     try {
-      const items = await db.Item.findAll();
-      response.send({ items });
+      const users = await db.User.findAll();
+      response.send({ users });
     } catch (error) {
       console.log(error);
     }
