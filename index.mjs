@@ -3,11 +3,21 @@ import express from 'express';
 import methodOverride from 'method-override';
 import bindRoutes from './routes.mjs';
 import cors from 'cors';
+import Pusher from 'pusher';
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 // Initialise Express instance
 const app = express();
+
+const pusher = new Pusher({
+  appId: "1217708",
+  key: "1a237dca1649981ed002",
+  secret: "5af602b55f9625620aee",
+  cluster: "ap1",
+  useTLS: true
+});
+
 // Set CORS headers
 app.use(cors({
   credentials:true,
