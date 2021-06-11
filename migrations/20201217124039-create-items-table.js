@@ -98,7 +98,7 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id',
-          as: 'receiverId',
+          as: 'receiver_id',
         },
       },
       sender_id: {
@@ -106,18 +106,16 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id',
-          as: 'senderId',
+          as: 'sender_id',
         },
       },
       message: {
         type: Sequelize.TEXT,
       },
       created_at: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       updated_at: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
     });
