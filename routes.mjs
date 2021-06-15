@@ -17,7 +17,7 @@ export default function routes(app) {
   
   const CuisinesController = initCuisinesController(db);
   app.get('/cuisines', CuisinesController.index);
-  // app.post('/userCuisines', CuisinesController.userCuisines);
+  app.post('/friendCuisines', UsersController.getFriendCuisines);
 
   // special JS page. Include the webpack index.html file
   app.get('/home', (request, response) => {

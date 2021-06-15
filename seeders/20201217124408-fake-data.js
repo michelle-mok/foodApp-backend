@@ -65,15 +65,129 @@ module.exports = {
       }
     ];
 
+    const userCuisines = [
+      {
+        user_id: 1,
+        cuisine_id: 3,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 1,
+        cuisine_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 1,
+        cuisine_id: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 1,
+        cuisine_id: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 2,
+        cuisine_id: 3,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 2,
+        cuisine_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 2,
+        cuisine_id: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 2,
+        cuisine_id: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 2,
+        cuisine_id: 7,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 3,
+        cuisine_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 3,
+        cuisine_id: 3,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 3,
+        cuisine_id: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 3,
+        cuisine_id: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 3,
+        cuisine_id: 6,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 4,
+        cuisine_id: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 4,
+        cuisine_id: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 4,
+        cuisine_id: 6,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 4,
+        cuisine_id: 7,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+
+    ]
+
     try {
       const result = await queryInterface.bulkInsert('users', usersList);
       const result2 = await queryInterface.bulkInsert('cuisines', cuisinesList);
+      const result3 = await queryInterface.bulkInsert ('user_cuisines', userCuisines);
     } catch (error) {
       console.log(error);
     }
   },
 
   down: async (queryInterface) => {
+    await queryInterface.bulkDelete('user_cuisines', null, {});
     await queryInterface.bulkDelete('users', null, {});
     await queryInterface.bulkDelete('cuisines', null, {});
   },
