@@ -9,6 +9,7 @@ export default function routes(app) {
   
   const UsersController = initUsersController(db);
   app.get('/users', UsersController.index);
+  app.post('/login', UsersController.login);
   app.post('/userinfo', UsersController.newUser);
 
   const MessagesController = initMessagesController(db); 
@@ -17,7 +18,7 @@ export default function routes(app) {
   
   const CuisinesController = initCuisinesController(db);
   app.get('/cuisines', CuisinesController.index);
-  app.post('/friendCuisines', UsersController.getFriendCuisines);
+  app.post('/everyonesCuisines', UsersController.getEveryonesCuisines);
 
   // special JS page. Include the webpack index.html file
   app.get('/home', (request, response) => {

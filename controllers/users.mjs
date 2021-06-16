@@ -1,3 +1,6 @@
+import sequelizePackage from 'sequelize';
+const { Op } = sequelizePackage;
+
 export default function initUsersController(db) {
   const index = async (request, response) => {
     try {
@@ -7,6 +10,31 @@ export default function initUsersController(db) {
       console.log(error);
     }
   };
+
+  const login = async (req, res) => {
+    console.log(req.body);
+
+    try {
+      const userInfo = await db.User.findOne({
+        where: {
+          [Op.and]: {
+            username: req.body.username,
+            password: req.body.password
+          }
+        }
+      })
+      console.log('user info-----', userInfo);
+      if (userInfo !== null) {
+        res.send(userInfo);
+      } else {
+        res.sendStatus(404);
+      }
+      
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   const newUser = async (req, res) => {
     console.log('request body', req.body);
@@ -28,13 +56,13 @@ export default function initUsersController(db) {
     }
   }
 
-  const getFriendCuisines = async (req, res) => {
+  const getEveryonesCuisines = async (req, res) => {
     console.log(req.body);
 
     try {
-      const friends = await db.User.findAll({
+      const everyone = await db.User.findAll({
         where: {
-          id: req.body.friends,
+          id: req.body.everyone,
         },
         include: [{
           model: db.Cuisine,
@@ -42,9 +70,9 @@ export default function initUsersController(db) {
         }]
       })
 
-      const friendCuisineArray = []
-      friends.forEach((friend) => friend.cuisines.forEach((cuisine) => friendCuisineArray.push(cuisine.name)));
-      console.log(friendCuisineArray);
+      const everyonesCuisineArray = []
+      everyone.forEach((person) => person.cuisines.forEach((cuisine) => everyonesCuisineArray.push(cuisine.name)));
+      console.log(everyonesCuisineArray);
 
       const sharedCuisines = []
       function count_duplicate(array){
@@ -59,14 +87,14 @@ export default function initUsersController(db) {
             }  
             
           console.log(counts);
-          for (let cuisine in counts){
-            if (counts[cuisine] === friends.length){
+          for (let cuisine in counts) {
+            if (counts[cuisine] === everyone.length) {
                 sharedCuisines.push(cuisine);
             }
           }
         }
 
-      count_duplicate(friendCuisineArray);
+      count_duplicate(everyonesCuisineArray);
       console.log(sharedCuisines);
       res.send(sharedCuisines);
     }
@@ -76,6 +104,6 @@ export default function initUsersController(db) {
 }
 
   return {
-    index, newUser, getFriendCuisines
+    index, newUser, getEveryonesCuisines, login
   };
 }
