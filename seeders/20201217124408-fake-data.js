@@ -1,4 +1,9 @@
 const faker = require('faker');
+const jsSHA = require("jssha");
+
+const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8'});
+shaObj.update('qwerty');
+const hashedPassword = shaObj.getHash('HEX');
 
 module.exports = {
   up: async (queryInterface) => {
@@ -10,7 +15,7 @@ module.exports = {
         last_name: faker.name.lastName(),
         username: faker.internet.userName(),
         email: faker.internet.email(),
-        password: 'qwerty',
+        password: hashedPassword,
         profile_pic: faker.image.imageUrl(),
         created_at: new Date(),
         updated_at: new Date(),
@@ -174,7 +179,144 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
-
+      {
+        user_id: 5,
+        cuisine_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 5,
+        cuisine_id: 9,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 5,
+        cuisine_id: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 6,
+        cuisine_id: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 6,
+        cuisine_id: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 6,
+        cuisine_id: 6,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 6,
+        cuisine_id: 9,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 7,
+        cuisine_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 7,
+        cuisine_id: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 7,
+        cuisine_id: 6,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 7,
+        cuisine_id: 8,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 8,
+        cuisine_id: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 8,
+        cuisine_id: 3,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 8,
+        cuisine_id: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 8,
+        cuisine_id: 7,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 9,
+        cuisine_id: 3,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 9,
+        cuisine_id: 7,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 9,
+        cuisine_id: 8,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 9,
+        cuisine_id: 9,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 10,
+        cuisine_id: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 10,
+        cuisine_id: 6,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 10,
+        cuisine_id: 7,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        user_id: 10,
+        cuisine_id: 8,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
     ]
 
     try {

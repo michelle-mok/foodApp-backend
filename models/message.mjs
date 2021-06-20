@@ -8,29 +8,27 @@ export default function messageModel(sequelize, DataTypes) {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      receiver_id: {
+      roomId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'users',
+          model: 'rooms',
           key: 'id',
-          as: 'receiver_id',
         },
       },
-      sender_id: {
+      userId: {
         type: DataTypes.INTEGER,
         references: {
           model: 'users',
           key: 'id',
-          as: 'sender_id',
         },
       },
       message: {
         type: DataTypes.TEXT,
       },
-      created_at: {
+      createdAt: {
         type: DataTypes.DATE,
       },
-      updated_at: {
+      updatedAt: {
         type: DataTypes.DATE,
       },
     },

@@ -86,6 +86,53 @@ module.exports = {
       },
     });
 
+    await queryInterface.createTable('rooms', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      name: {
+        type: Sequelize.STRING,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+      },
+    })
+
+    await queryInterface.createTable('user_rooms', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      room_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'rooms',
+          key: 'id',
+        },
+      },
+       created_at: {
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+      },
+    })
+
     await queryInterface.createTable('messages', {
       id: {
         allowNull: false,
@@ -93,22 +140,36 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      receiver_id: {
+      user_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
           key: 'id',
-          as: 'receiver_id',
         },
       },
-      sender_id: {
+      room_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'users',
+          model: 'rooms',
           key: 'id',
-          as: 'sender_id',
         },
       },
+      // receiver_id: {
+      //   type: Sequelize.INTEGER,
+      //   references: {
+      //     model: 'users',
+      //     key: 'id',
+      //     as: 'receiver_id',
+      //   },
+      // },
+      // sender_id: {
+      //   type: Sequelize.INTEGER,
+      //   references: {
+      //     model: 'users',
+      //     key: 'id',
+      //     as: 'sender_id',
+      //   },
+      // },
       message: {
         type: Sequelize.TEXT,
       },
@@ -124,6 +185,8 @@ module.exports = {
   down: async (queryInterface) => {
     await queryInterface.dropTable('messages');
     await queryInterface.dropTable('user_cuisines');
+    await queryInterface.dropTable('user_rooms');
+    await queryInterface.dropTable('rooms');
     await queryInterface.dropTable('cuisines');
     await queryInterface.dropTable('users');
   },

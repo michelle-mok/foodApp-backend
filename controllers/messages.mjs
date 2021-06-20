@@ -12,29 +12,23 @@ const pusher = new Pusher({
 
 export default function initMessagesController(db) {
    
-const allMessages = async (req, res) => {
-  console.log('userId from cookie', req.cookies.userId);
-  console.log('other user id', req.params.id);
+// const allMessages = async (req, res) => {
+//   console.log('userId from cookie', req.cookies.userId);
+//   console.log('other user id', req.params.id);
 
-  try {
-    const messages = await db.Message.findAll({
-      where: {
-        [Op.or]: [{
-          sender_id: Number(req.cookies.userId),
-          receiver_id: Number(req.params.id),
-        }, {
-          sender_id: Number(req.params.id),
-          receiver_id:Number(req.cookies.userId)
-        }]
-      }
-    })
-    console.log('messages ===', messages);
-    res.send(messages);
-  }
-  catch (error) {
-    console.log(error);
-  }
-}
+//   try {
+//     const messages = await db.Message.findAll({
+//       where: {
+//         userId: Number(req.cookies.userId),
+//       }
+//     })
+//     console.log('messages ===', messages);
+//     res.send(messages);
+//   }
+//   catch (error) {
+//     console.log(error);
+//   }
+// }
 
 const newMessage = async (req, res) => {
   console.log('new message', req.body);
@@ -45,16 +39,19 @@ const newMessage = async (req, res) => {
       console.log(messageInstance);
       pusher.trigger("messages", "inserted", 
           {
-            message: messageInstance.message
+            userId: messageInstance.userId,
+            message: messageInstance.message,
+            createdAt: messageInstance.createdAt,
           }
         );
     })
     const insertedMessage = await db.Message.create({
-      sender_id: Number(req.cookies.userId),
-      receiver_id: Number(req.body.receiverId),
+      userId: Number(req.cookies.userId),
+      roomId: Number(req.body.roomId),
       message: req.body.message,
     })
     console.log('new entry to table', insertedMessage);
+    
     res.sendStatus(200);
   }
   catch (error) {
@@ -62,6 +59,6 @@ const newMessage = async (req, res) => {
   }
 }
   return {
-    allMessages, newMessage
-  };
+   newMessage
+  }
 }
