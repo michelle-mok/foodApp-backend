@@ -10,13 +10,13 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 // Initialise Express instance
 const app = express();
 
-const pusher = new Pusher({
-  appId: "1217708",
-  key: "1a237dca1649981ed002",
-  secret: "5af602b55f9625620aee",
-  cluster: "ap1",
-  useTLS: true
-});
+// const pusher = new Pusher({
+//   appId: "1217708",
+//   key: "1a237dca1649981ed002",
+//   secret: "5af602b55f9625620aee",
+//   cluster: "ap1",
+//   useTLS: true
+// });
 
 // Set CORS headers
 app.use(cors({
@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 // Expose the files stored in the public folder
 app.use(express.static('public'));
-
+app.use(express.static('uploads'));
 // Bind route definitions to the Express application
 bindRoutes(app);
 

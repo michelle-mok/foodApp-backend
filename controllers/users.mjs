@@ -60,6 +60,7 @@ export default function initUsersController(db) {
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
+        profilePic: req.body.profilePic
       })
     
       const entries = await addUser.addCuisines(req.body.cuisines);
@@ -129,6 +130,7 @@ const updateUser = async (req, res) => {
       lastName: req.body.lastName,
       username: req.body.username,
       email: req.body.email,
+      profilePic: req.body.profilePic,
       }, {
         where: {
           id: req.cookies.userId,
@@ -136,7 +138,7 @@ const updateUser = async (req, res) => {
         returning: true,
       }
     )
-    console.log('updated details', update);
+    console.log('updated details', update[1]);
     const user = await db.User.findOne({
       where: {
         id: req.cookies.userId,

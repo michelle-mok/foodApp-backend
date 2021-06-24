@@ -1,3 +1,6 @@
+import sequelizePackage from 'sequelize';
+const { Op } = sequelizePackage;
+
 export default function initCuisinesController(db) {
   const index = async (req, res) => {
     try {
@@ -26,14 +29,25 @@ export default function initCuisinesController(db) {
 
     const cuisineIds = [];
     user.cuisines.forEach((cuisine) => {
+      if (cuisineIds.length < 2) {
       cuisineIds.push(cuisine.id)
+      }
     })
 
     console.log('cuisine ids', cuisineIds);
     const suggestedUsers = await db.User.findAll({
+      where: {
+        id: {
+          [Op.ne]: req.cookies.userId,
+        }
+      },
       include: [{
         model: db.Cuisine,
-        where: { id: cuisineIds } 
+        where: { 
+          id: {
+            [Op.or]: cuisineIds
+          }
+      }
       }]
     })
     console.log('suggested users', suggestedUsers);

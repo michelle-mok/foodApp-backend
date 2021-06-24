@@ -9,6 +9,14 @@ export default function initRoomsController(db) {
         where: {
           name: req.body.name,
         }
+        // include: [{
+        //   model: db.User,
+        //   where: {
+        //     id: {
+        //       [Op.and]: friendIds,
+        //     }
+        //   },
+        // }]
       })
       console.log('chat room', chatRoom);
       if (chatRoom[1] === true) {
@@ -27,6 +35,9 @@ export default function initRoomsController(db) {
     console.log('is req.body an array',Array.isArray(req.body.id));
     try {
       let chatRoom;
+      let displayName;
+      let profilepic;
+      let chatroomDetails;
       if (Array.isArray(req.body.id) === true) {
         chatRoom = await db.Room.findOne({
           include: [{
@@ -44,10 +55,35 @@ export default function initRoomsController(db) {
         chatRoom = await db.Room.findOne({
           where: {
             id: req.body.id,
-          }
+          },
+          include: [{
+            model:  db.User,
+            attributes: ['id', 'username', 'profilePic']
+          }]
         })
         console.log('chatroom', chatRoom);
+        const roomUsers = [];
+        chatRoom.users.forEach((user) => {
+          if (user.id !== Number(req.cookies.userId)) {
+            roomUsers.push(user.username);
+          }
+        })
+        console.log('room users', roomUsers);
+        if (roomUsers.length === 1) {
+          displayName = roomUsers[0];
+          profilepic = chatRoom.users[0].profilePic
+        } else { 
+        displayName = roomUsers.join(', ');
+        profilepic = null;
+        }
+        chatroomDetails = {
+        id: chatRoom.id,
+        displayName,
+        profilepic,
+        }
       }
+      
+      console.log('chat room details', chatroomDetails);
 
       const messages = await db.Message.findAll({
         where: {
@@ -74,7 +110,7 @@ export default function initRoomsController(db) {
           }
           messageArray.push(singleMessage);
           })
-        res.send({chatRoom, messageArray});
+        res.send({chatroomDetails, messageArray});
     }
     catch (error) {
       console.log(error);
@@ -95,6 +131,9 @@ export default function initRoomsController(db) {
           model: db.Message,
           order: [[ 'id', 'DESC' ]],
           limit: 1,
+        }, {
+          model: db.User,
+          attributes: ['id', 'username', 'profilePic'],
         }]
       })
       console.log(rooms);
@@ -108,10 +147,28 @@ export default function initRoomsController(db) {
           lastMessage = '';
         }
         const { name, id } = room;
+        console.log('users for 1 room', room.users);
+        const roomUsers = [];
+        room.users.forEach((user) => {
+          if (user.id !== Number(req.cookies.userId)) {
+            roomUsers.push(user.username);
+          }
+        })
+        let displayName;
+        let profilepic;
+        if (roomUsers.length === 1) {
+          displayName = roomUsers[0];
+          profilepic = room.users[0].profilePic
+        } else { 
+        displayName = roomUsers.join(', ');
+        profilepic = null;
+        }
         const singleRoom = {
           id,
           name,
           lastMessage,
+          displayName, 
+          profilepic
         }
         roomDetails.push(singleRoom);
       })
