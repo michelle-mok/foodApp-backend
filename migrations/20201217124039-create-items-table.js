@@ -154,22 +154,9 @@ module.exports = {
           key: 'id',
         },
       },
-      // receiver_id: {
-      //   type: Sequelize.INTEGER,
-      //   references: {
-      //     model: 'users',
-      //     key: 'id',
-      //     as: 'receiver_id',
-      //   },
-      // },
-      // sender_id: {
-      //   type: Sequelize.INTEGER,
-      //   references: {
-      //     model: 'users',
-      //     key: 'id',
-      //     as: 'sender_id',
-      //   },
-      // },
+      user_name: {
+        type: Sequelize.TEXT,
+      },
       message: {
         type: Sequelize.TEXT,
       },

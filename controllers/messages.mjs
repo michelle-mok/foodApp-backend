@@ -40,14 +40,17 @@ const newMessage = async (req, res) => {
       pusher.trigger("messages", "inserted", 
           {
             userId: messageInstance.userId,
+            userName: messageInstance.userName,
             message: messageInstance.message,
             createdAt: messageInstance.createdAt,
           }
         );
     })
+
     const insertedMessage = await db.Message.create({
       userId: Number(req.cookies.userId),
       roomId: Number(req.body.roomId),
+      userName: req.body.userName,
       message: req.body.message,
     })
     console.log('new entry to table', insertedMessage);

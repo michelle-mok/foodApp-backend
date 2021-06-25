@@ -30,13 +30,14 @@ export default function routes(app) {
   app.post('/userinfo', UsersController.newUser);
   app.post('/everyonesCuisines', UsersController.getEveryonesCuisines);
   app.put('/updateUserInfo', UsersController.updateUser);
-  
+  app.get('/singleUser', UsersController.singleUser);
+  app.get(`/logout`, UsersController.logout);
   const MessagesController = initMessagesController(db); 
   app.post('/newMessage', MessagesController.newMessage);
   
   const RoomsController = initRoomsController(db);
   app.post('/setupChatRoom', RoomsController.findOrCreateRoom);
-  app.post('/getChatRoom', RoomsController.getChatRoom);
+  app.get('/getChatRoom/:id', RoomsController.getChatRoom);
   app.get('/getRooms', RoomsController.getRooms);
 
   const CuisinesController = initCuisinesController(db);

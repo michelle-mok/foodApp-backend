@@ -153,7 +153,34 @@ const updateUser = async (req, res) => {
   }
 }
 
+const singleUser = async (req, res) => {
+  try {
+    const userInfo = await db.User.findOne({
+        where: {
+        id: req.cookies.userId,
+        }
+      })
+      const userCuisines = await userInfo.getCuisines();
+      res.send({userInfo, userCuisines});
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+
+const logout = (req, res) => {
+
+  // const user = await db.User.findOne({
+  //   where: {
+  //     id: Number(req.params.id)
+  //   }
+  // })
+  res.clearCookie('userId');
+  res.clearCookie('chatroomId');
+  res.sendStatus(200);
+}
+
   return {
-    index, newUser, getEveryonesCuisines, login, updateUser
+    index, newUser, getEveryonesCuisines, login, updateUser, singleUser, logout
   };
 }

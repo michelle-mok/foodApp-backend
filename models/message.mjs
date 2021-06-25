@@ -22,6 +22,9 @@ export default function messageModel(sequelize, DataTypes) {
           key: 'id',
         },
       },
+      userName: {
+        type: DataTypes.TEXT,
+      },
       message: {
         type: DataTypes.TEXT,
       },
