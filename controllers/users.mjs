@@ -65,7 +65,7 @@ export default function initUsersController(db) {
     
       const entries = await addUser.addCuisines(req.body.cuisines);
       console.log('new user id', addUser.id);
-      res.cookie(userId, addUser.id);
+      res.cookie('userId', addUser.id);
       res.sendStatus(200);
     }
     catch (error) {
