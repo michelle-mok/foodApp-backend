@@ -66,7 +66,7 @@ export default function initUsersController(db) {
       const entries = await addUser.addCuisines(req.body.cuisines);
       console.log('new user id', addUser.id);
       res.cookie('userId', addUser.id, {
-        domain: 'netlify.app',
+        domain: 'youthful-rosalind-76966c.netlify.app',
         sameSite:'none',
       });
       res.sendStatus(200);
