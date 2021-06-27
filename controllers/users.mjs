@@ -67,7 +67,8 @@ export default function initUsersController(db) {
       console.log('new user id', addUser.id);
       res.cookie('userId', addUser.id, {
         domain: 'youthful-rosalind-76966c.netlify.app',
-        sameSite:'none',
+        secure: true,
+        sameSite: 'none',
       });
       res.sendStatus(200);
     }
