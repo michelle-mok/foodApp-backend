@@ -67,7 +67,6 @@ export default function initUsersController(db) {
       console.log('new user id', addUser.id);
       res.cookie('userId', addUser.id, {
         domain: 'netlify.app',
-        secure: true,
         sameSite:'none',
       });
       res.sendStatus(200);
