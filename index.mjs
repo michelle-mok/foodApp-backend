@@ -4,8 +4,7 @@ import methodOverride from 'method-override';
 import bindRoutes from './routes.mjs';
 import cors from 'cors';
 
-// const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
-const FRONTEND_URL = "https://youthful-rosalind-76966c.netlify.app"
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 // Initialise Express instance
 const app = express();
