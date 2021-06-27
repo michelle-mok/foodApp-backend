@@ -33,11 +33,13 @@ export default function initUsersController(db) {
           }
         }
       })
+      console.log('userInfo', userInfo);
       const userCuisines = await userInfo.getCuisines();
       console.log('user cuisines====', userCuisines);
       console.log('user info-----', userInfo);
       if (userInfo !== null) {
-        res.cookie('userId', userInfo.id);
+        res.cookie('userId', userInfo.id, { sameSite: 'none', secure: true }
+        );
         res.send({ userInfo, userCuisines });
       } else {
         res.status(403).send('login not successsful');
@@ -65,11 +67,7 @@ export default function initUsersController(db) {
     
       const entries = await addUser.addCuisines(req.body.cuisines);
       console.log('new user id', addUser.id);
-      res.cookie('userId', addUser.id, {
-        domain: 'youthful-rosalind-76966c.netlify.app',
-        secure: true,
-        sameSite: 'none',
-      });
+      res.cookie('userId', addUser.id);
       res.sendStatus(200);
     }
     catch (error) {
